@@ -163,13 +163,17 @@
 
 		function getLocation() {
 			if (navigator.geolocation) {
-				try {
-					navigator.geolocation.getCurrentPosition(fillPositionAndSubmit);
-				}
-				catch(err) {
-					// not sure this work
-					alert("Không thể truy cập vị trí. Vui lòng cho phép truy cập.");
-				}
+				navigator.geolocation.getCurrentPosition(
+					fillPositionAndSubmit, 
+					error => {
+						alert("Không thể truy cập vị trí. Vui lòng cho phép ứng dụng quét QR (Zalo) truy cập vị trí");
+					}, {
+						timeout: 5000,
+						maximumAge: 5000,
+						enableHighAccuracy: true
+					}
+				)
+
 			} else {
 				// not sure this work
 				alert("Thiết bị không hỗ trợ vị trí, vui lòng thử lại với trình duyệt khác (Safari, Chrome hoặc Firefox)");
@@ -177,12 +181,8 @@
 		}
 
 		function fillPositionAndSubmit(position) {
-			var curLat = position?.coords?.latitude;
-			var curLng = position?.coords?.longitude;
-
-			if (curLat === null || curLat === undefined || curLng === null || curLng === undefined) {
-				alert("Không thể truy cập vị trí. Vui lòng cho phép ứng dụng (Zalo) truy cập vị trí");
-			}
+			var curLat = position.coords.latitude;
+			var curLng = position.coords.longitude;
 			
 			var googleMapUrl = 'https://maps.google.com/?q='+curLat+','+curLng+'';
 			submitLocation.value = googleMapUrl;
