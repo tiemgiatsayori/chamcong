@@ -177,8 +177,12 @@
 		}
 
 		function fillPositionAndSubmit(position) {
-			var curLat = position.coords.latitude;
-			var curLng = position.coords.longitude;
+			var curLat = position?.coords?.latitude;
+			var curLng = position?.coords?.longitude;
+
+			if (curLat === null || curLat === undefined || curLng === null || curLng === undefined) {
+				alert("Không thể truy cập vị trí. Vui lòng cho phép ứng dụng (Zalo) truy cập vị trí");
+			}
 			
 			var googleMapUrl = 'https://maps.google.com/?q='+curLat+','+curLng+'';
 			submitLocation.value = googleMapUrl;
