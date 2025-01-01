@@ -187,25 +187,30 @@
     <!-- Script go here -->
     <script>
       const MAX_DISTANCE = 300; // meters
-      const shopLocations = [
-        {
-          lat: 10.0416514, // shop 1 To Hien Thanh
-          lng: 105.7553143,
+
+      const shopCode2ShopInfo = {
+        "6PDC2J": {
+            "name": "Tiệm 1",
+            "location": {
+                "lat": 10.0416514, // shop 1 To Hien Thanh
+                "lng": 105.7553143,
+            },
         },
-        {
-          lat: 10.0490362, // shop 2 Nguyen De
-          lng: 105.7613264,
+        "UZ3JLR": {
+            "name": "Tiệm 2",
+            "location": {
+                "lat": 10.0490362, // shop 2 Nguyen De
+                "lng": 105.7613264,
+            },
         },
-        {
-          lat: 10.037685, // shop 3 Nguyen Minh Quang
-          lng: 105.756798,
+        "VJEFR4": {
+            "name": "Tiệm 3",
+            "location": {
+                "lat": 10.037685, // shop 3 Nguyen Minh Quang
+                "lng": 105.756798,
+            },
         },
-      ];
-      const shopCode2Name = {
-        "6PDC2J": "Tiệm 1",
-        "UZ3JLR": "Tiệm 2",
-        "VJEFR4": "Tiệm 3",
-      };
+      }
 
       const scriptURL =
         "https://script.google.com/macros/s/AKfycbwRQ_DwN5xaak--miZkQp-JCwiC2aQP8EHb93nxuwoaaAptkeoE57TlqDPHkYigLyUf/exec";
@@ -300,14 +305,14 @@
           shopCode === null ||
           shopCode === undefined ||
           shopCode.trim() === "" ||
-          shopCode2Name[shopCode] === null ||
-          shopCode2Name[shopCode] === undefined
+          shopCode2ShopInfo[shopCode] === null ||
+          shopCode2ShopInfo[shopCode] === undefined
         ) {
           alert("QR sai, thiếu mã chi nhánh");
           window.location.reload();
           throw new Error("QR sai, thiếu mã chi nhánh");
         }
-        formData.set("Chi nhánh", shopCode2Name[shopCode]);
+        formData.set("Chi nhánh", shopCode2ShopInfo[shopCode].name);
 
         if (
           formData.get("Tên") === undefined ||
@@ -321,25 +326,27 @@
 
         // Verify device location
         var hasValidLocation = false;
-        for (let i = 0; i < shopLocations.length; i++) {
-          var shopLocation = shopLocations[i];
-          var distance = calculateDistance(
-            curLat,
-            curLng,
-            shopLocation.lat,
-            shopLocation.lng
-          ); // meters
-          if (distance < MAX_DISTANCE) {
-            hasValidLocation = true;
-          }
+
+        if (shopCode2ShopInfo[shopCode] && shopCode2ShopInfo[shopCode].location) {
+            var shopLocation = shopCode2ShopInfo[shopCode].location;
+            var distance = calculateDistance(
+                curLat,
+                curLng,
+                shopLocation.lat,
+                shopLocation.lng
+            ); // meters
+            if (distance < MAX_DISTANCE) {
+                hasValidLocation = true;
+            }
         }
+
         if (!hasValidLocation) {
           alert(
-            "Lỗi! Không thể chấm công từ xa. Nhân viên chỉ có thể chấm công khi đang ở tiệm"
+            "Lỗi! Không thể chấm công từ xa. Nhân viên chỉ có thể chấm công khi đang ở đúng chi nhánh"
           );
           window.location.reload();
           throw new Error(
-            "Lỗi! Không thể chấm công từ xa. Nhân viên chỉ có thể chấm công khi đang ở tiệm"
+            "Lỗi! Không thể chấm công từ xa. Nhân viên chỉ có thể chấm công khi đang ở đúng chi nhánh"
           );
         }
 
@@ -362,7 +369,7 @@
               let msg = document.getElementById("successMsg").innerHTML;
               msg = msg.replace("[status]", formData.get("Vào/Tan Ca"));
               msg = msg.replace("[time]", getFormattedNow());
-              msg = msg.replace("[shopName]", shopCode2Name[shopCode]);
+              msg = msg.replace("[shopName]", shopCode2ShopInfo[shopCode].name);
               document.getElementById("successMsg").innerHTML = msg;
 
               var gUrlEl = document.getElementById("gmapUrl");
