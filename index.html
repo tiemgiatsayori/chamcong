@@ -424,6 +424,17 @@
         throw new Error("Không được bỏ trống tên");
       }
 
+      if (formData.get("Tên")) {
+        // Allow Vietnamese characters, letters, numbers, spaces, and dots
+        let regex = /^[\p{L}0-9\s.]+$/u;
+              
+        if (!regex.test(formData.get("Tên"))) {
+          alert("Tên chỉ được chứa chữ cái, số, khoảng trắng và dấu chấm.");
+          window.location.reload();
+          throw new Error("Tên chỉ được chứa chữ cái, số, khoảng trắng và dấu chấm.");
+        }
+      }
+
       // Verify device location
       var hasValidLocation = false;
 
