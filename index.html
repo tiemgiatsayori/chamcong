@@ -7,122 +7,199 @@
     <style>
       * {
         box-sizing: border-box;
-      }
-      body {
-        font-family: Arial, sans-serif;
         margin: 0;
         padding: 0;
-        background-color: #f9f9f9;
       }
-      form {
-        width: 90%;
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background-color: #f0f2f5;
+        min-height: 100vh;
+      }
+
+      /* Green accent bar at top */
+      .page-card::before {
+        content: "";
+        display: block;
+        height: 6px;
+        background: linear-gradient(90deg, #04a346, #06c755);
+      }
+
+      .page-card {
+        width: 92%;
         max-width: 400px;
-        margin: 20px auto;
-        background-color: #04a346;
-        color: white;
+        margin: 16px auto;
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+      }
+
+      form {
+        background-color: #fff;
+        color: #333;
         padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         text-align: center;
       }
+
+      .logo-area {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+
       img {
         max-width: 100%;
         height: auto;
       }
+
       input[type="text"],
       select,
-      textarea,
-      input[type="submit"] {
+      textarea {
         width: 100%;
-        padding: 10px;
-        margin: 5px 0;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
-        padding: 10px 25px;
-        font-size: 18px;
+        padding: 14px 16px;
+        margin: 6px 0;
+        border: 1.5px solid #e0e0e0;
+        border-radius: 10px;
+        font-size: 16px;
+        color: #333;
+        background: #fafafa;
+        transition: border-color 0.2s;
+        -webkit-appearance: none;
       }
-      select {
-        font-weight: normal;
-        height: 50px;
+      input[type="text"]:focus,
+      textarea:focus {
+        outline: none;
+        border-color: #04a346;
+        background: #fff;
       }
-      input[type="submit"] {
-        background-color: rgb(12, 80, 4);
-        color: white;
-        cursor: pointer;
-        border: none;
-      }
-      input[type="submit"]:hover {
-        background-color: #0056b3;
+      textarea {
+        resize: vertical;
+        min-height: 60px;
       }
 
-      /* table */
+      /* Success message */
+      #message {
+        background: #e8f5e9;
+        border-radius: 10px;
+        padding: 14px;
+        margin: 10px 0;
+        color: #2e7d32;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+      #message a {
+        color: #1b5e20;
+        word-break: break-all;
+      }
+
+      /* Buttons */
+      .btn-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 16px;
+      }
+
+      .button-cham-cong {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        width: 100%;
+        padding: 16px 20px;
+        border: none;
+        border-radius: 12px;
+        font-size: 18px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.1s, box-shadow 0.2s;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .button-cham-cong:active {
+        transform: scale(0.97);
+      }
+
+      .button-cham-cong .btn-icon {
+        height: 36px;
+        width: 36px;
+        object-fit: contain;
+      }
+
+      .btn-vaoca {
+        background: linear-gradient(135deg, #04a346, #06c755);
+        color: #fff;
+        box-shadow: 0 4px 12px rgba(4, 163, 70, 0.3);
+      }
+      .btn-vaoca:active {
+        box-shadow: 0 2px 6px rgba(4, 163, 70, 0.3);
+      }
+      .btn-vaoca .btn-icon {
+        filter: brightness(0) invert(1);
+      }
+
+      .btn-tanca {
+        background: linear-gradient(135deg, #404756, #2d3340);
+        color: #fff;
+        box-shadow: 0 4px 12px rgba(45, 51, 64, 0.25);
+      }
+      .btn-tanca:active {
+        box-shadow: 0 2px 6px rgba(45, 51, 64, 0.25);
+      }
+      .btn-tanca .btn-icon {
+        filter: brightness(0) invert(1);
+      }
+
+      /* History section */
       .table-wrapper {
-        width: 90%;
-        max-width: 400px;
+        display: block;
         text-align: center;
       }
+      .table-wrapper h5 {
+        background: #fff;
+        color: #999;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin: 0;
+        padding: 12px 0 6px 0;
+        border-top: 1px solid #f0f0f0;
+      }
+
       #historyTable {
-        width: 90%;
-        max-width: 400px;
-        margin: 20px auto;
-        text-align: center;
+        width: 100%;
         border-collapse: collapse;
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        font-size: 13px;
       }
 
       #historyTable thead {
-        background-color: #d3d3d3;
-        color: #333;
-        font-weight: bold;
+        background: #04a346;
+        color: #fff;
+        font-weight: 600;
       }
 
-      #historyTable th, #historyTable td {
-        padding: 12px;
-        border-bottom: 1px solid #ddd;
+      #historyTable th {
+        padding: 10px 8px;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
       }
 
-      #historyTable tbody tr:nth-child(even) {
-        background-color: #f2f2f2;
+      #historyTable td {
+        padding: 10px 8px;
+        border-bottom: 1px solid #f0f0f0;
+        color: #555;
       }
 
-      #historyTable tbody tr:hover {
-        background-color: #e0e0e0;
-        transition: 0.3s;
-      }
-      /* end table */
-
-      /* start button */
-      .button-cham-cong {
-        background-color: rgb(12, 80, 4);
-        color: white;
-        cursor: pointer;
-        border: none;
-        width: 49%;
-        margin: 5px 0;
-        border: 1px solid #ccc;
-        border-radius: 13px;
-        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
-        padding: 0px 0px 4px 0px;
-        font-size: 18px;
+      #historyTable tbody tr:last-child td {
+        border-bottom: none;
       }
 
-      .button-cham-cong:hover {
-        background-color: #0056b3;
-      }
-
-      .filter {
-        -webkit-filter: brightness(0) invert(1);
-        filter: contrast(0%) brightness(2);
-      }
-      /* end button */
-
-      /* start spinning animation */
+      /* Spinner */
       .lds-dual-ring {
-        /* change color here */
-        color: white;
+        color: #04a346;
       }
       .lds-dual-ring,
       .lds-dual-ring:after {
@@ -132,6 +209,7 @@
         display: inline-block;
         width: 50px;
         height: 50px;
+        margin-top: 16px;
       }
       .lds-dual-ring:after {
         content: " ";
@@ -140,33 +218,31 @@
         height: 34px;
         margin: 8px;
         border-radius: 50%;
-        border: 6.4px solid currentColor;
+        border: 5px solid currentColor;
         border-color: currentColor transparent currentColor transparent;
         animation: lds-dual-ring 1.2s linear infinite;
       }
       @keyframes lds-dual-ring {
-        0% {
-          transform: rotate(0deg);
-        }
-        100% {
-          transform: rotate(360deg);
-        }
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
       }
-      /* end spinning animation */
     </style>
   </head>
   <body>
+    <div class="page-card">
     <form method="post" action="" name="contact-form">
-      <img
-        style="height: 4rem"
-        src="./images/ori-logo.png"
-        alt="Small Logo"
-      />
-      <img
-        style="height: 4rem"
-        src="./images/ori-text-logo.png"
-        alt="Long Logo"
-      />
+      <div class="logo-area">
+        <img
+          style="height: 3rem"
+          src="./images/ori-logo.png"
+          alt="Small Logo"
+        />
+        <img
+          style="height: 3rem"
+          src="./images/ori-text-logo.png"
+          alt="Long Logo"
+        />
+      </div>
 
       <input
         required
@@ -178,8 +254,8 @@
 
       <textarea
         name="Ghi chú của nhân viên (nếu có)"
-        rows="4"
-        placeholder="Ghi chú của nhân viên (nếu có)"
+        rows="2"
+        placeholder="Ghi chú (nếu có)"
       ></textarea>
 
       <input
@@ -193,35 +269,31 @@
         <div id="successMsg">
           Xác nhận [status] lúc [time] tại [shopName], định vị:
         </div>
-        <a id="gmapUrl" href="" style="color: white"></a>
+        <a id="gmapUrl" href=""></a>
       </div>
 
-      <button class="button-cham-cong submit-btn" id="vaoca">
-        <img
-          style="height: 6rem"
-          src="./images/vao-ca-icon.png"
-          alt="Vao Ca Icon"
-          class="filter"
-        />
-        <br />
-        Vào Ca
-      </button>
-      <button class="button-cham-cong submit-btn" id="tanca">
-        <span style="padding-left: 9px;">
+      <div class="btn-group">
+        <button class="button-cham-cong btn-vaoca submit-btn" id="vaoca">
           <img
-            style="height: 6rem"
-            src="./images/tan-ca-icon.png"
+            class="btn-icon"
+            src="./images/vao-ca-icon.png"
             alt="Vao Ca Icon"
-            class="filter"
           />
-        </span>
-        <br />
-        Tan Ca
-      </button>
+          Vào Ca
+        </button>
+        <button class="button-cham-cong btn-tanca submit-btn" id="tanca">
+          <img
+            class="btn-icon"
+            src="./images/tan-ca-icon.png"
+            alt="Tan Ca Icon"
+          />
+          Tan Ca
+        </button>
+      </div>
 
       <div id="spinning" class="lds-dual-ring" style="display: none"></div>
     </form>
-    <span class="table-wrapper" id="tableWrapper">
+    <div class="table-wrapper" id="tableWrapper">
       <h5>Lần chấm công gần đây:</h5>
       <table id="historyTable">
         <thead>
@@ -234,7 +306,8 @@
         </thead>
         <tbody></tbody>
       </table>
-    </span>
+    </div>
+    </div>
   </body>
   <!-- Script go here -->
   <script>
@@ -328,10 +401,6 @@
           tableWrapper.style.display = "none";
         } else {
           tableWrapper.style.display = "block";
-          tableWrapper.style.display = "block";
-          tableWrapper.style.margin = "0 auto"; // Ensure centering
-          tableWrapper.style.width = "100%";
-          tableWrapper.style.maxWidth = "500px";
         }
       }
 
